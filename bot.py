@@ -26,13 +26,22 @@ def load_admins():
 class Commands:
     def __init__(self):
         self.commands = {
+            "help": self.help,
             "test": self.test,
             "jobs": self.jobs,
             "jobs_status": self.jobs_status,
             "create_job": self.create_job,
         }
+    
+    async def help(self, message):
+        send_str = "```"
+        for command, command_func in self.commands:
+            send_str += f"{command} - {command_func.__doc__}\n"
+        send_str += "```"
+        await message.channel.send('Hello!')
 
     async def test(self, message):
+        '''sends a test message'''
         await message.channel.send('Hello!')
 
     async def jobs(self, message):
@@ -44,6 +53,7 @@ class Commands:
         await message.channel.send(send_str)
 
     async def jobs_status(self, message):
+        '''shows status of all jobs in the namespace'''
         config.load_kube_config()
         v1 = client.BatchV1Api()
 
@@ -58,6 +68,7 @@ class Commands:
         await message.channel.send(send_str)
     
     async def create_job(self, message):
+        '''creates a job. jobs must be packaged with the bot'''
         config.load_kube_config()
 
         message_split = message.content.split(" ")
