@@ -11,7 +11,7 @@ DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
 # operating namespace
 NAMESPACE = os.environ.get("NAMESPACE")
 
-ADMIN_FILE = "admins.txt"
+ADMIN_FILE = "config/admins.txt"
 
 JOBS = {
     "restore-sql-backup": "./jobs/restore-sql-backup/job-restore-sql-backup.yaml",
