@@ -20,7 +20,11 @@ JOBS = {
 
 def load_admins():
     with open(ADMIN_FILE) as f:
-        return f.readlines()
+        admins = list()
+        for line in f.readlines():
+            admin = line.strip()
+            admins.append(admin)
+        return admins
 
 
 class Commands:
