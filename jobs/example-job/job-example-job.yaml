@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: example-job
+  namespace: persistent-outreach
+spec:
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - image: ghcr.io/persistentss13/job-example-job:1.12.0
+        name: example-job
+        resources: {}
+      restartPolicy: Never
+status: {}
