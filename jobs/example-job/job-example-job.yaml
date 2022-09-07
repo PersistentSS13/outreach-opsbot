@@ -10,7 +10,7 @@ spec:
       creationTimestamp: null
     spec:
       containers:
-      - image: ghcr.io/persistentss13/job-example-job:1.12.0
+      - image: ghcr.io/persistentss13/job-example-job:latest
         name: example-job
         resources: {}
       restartPolicy: Never
