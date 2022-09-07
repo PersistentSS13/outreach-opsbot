@@ -37,18 +37,25 @@ class Commands:
 
     async def jobs(self, message):
         '''lists creatable jobs'''
-        await message.channel.send(f"{JOBS}")
+        send_str = "```"
+        for job_name, job_path in JOBS:
+            send_str += f"{job_name} - {job_path}\n"
+        send_str += "```"
+        await message.channel.send(send_str)
 
     async def jobs_status(self, message):
         config.load_kube_config()
         v1 = client.BatchV1Api()
 
-        send_str = "```Jobs status:\n"
+        send_str = "```"
+        send_str += "Jobs status:\n"
         ret = v1.list_namespaced_job("persistent-outreach")
         send_str += "NAMESPACE\t\t\tSTART TIME\t\t\t\t\tJOB NAME\t\t\t\t\tTOTAL\tREADY\tFAILED\tSUCCEEDED\n"
         for i in ret.items:
             send_str += f"{i.metadata.namespace}\t{i.status.start_time}\t{i.metadata.name}\t{i.spec.completions}\t\t{i.status.ready or 0}\t\t{i.status.failed or 0}\t\t{i.status.succeeded or 0}\n"
-        await message.channel.send(send_str + "```")
+        send_str += "```"
+
+        await message.channel.send(send_str)
     
     async def create_job(self, message):
         config.load_kube_config()
