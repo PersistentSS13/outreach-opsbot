@@ -102,11 +102,14 @@ class Commands:
 
 
 def main():
+    print(f"Starting up...")
     admins = load_admins()
     commands = Commands()
 
     intents = discord.Intents.default()
     discord_client = discord.Client(intents=intents)
+    print(f"Connected to Discord!")
+    print(f"ADMINS: {admins}")
 
     @discord_client.event
     async def on_message(message):
