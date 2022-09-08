@@ -14,6 +14,7 @@ JOBS = {
     "restore-sql-backup": "./jobs/restore-sql-backup/job-restore-sql-backup.yaml",
 }
 IN_CLUSTER = True
+DEPLOYMENT_NAME = "discord_opsbot"
 
 
 def load_admins():
@@ -37,17 +38,30 @@ class Commands:
         self.commands = {
             "help": self.help,
             "test": self.test,
+            "version": self.version,
             "jobs": self.jobs,
             "jobs_status": self.jobs_status,
             "create_job": self.create_job,
         }
     
     async def help(self, message):
+        '''dispalys help message'''
         send_str = "```"
         for command, command_func in self.commands.items():
             send_str += f"{command} - {command_func.__doc__}\n"
         send_str += "```"
-        await message.channel.send('Hello!')
+        await message.channel.send(send_str)
+
+    async def version(self, message):
+        '''gets the currently deployed version'''
+        load_kube_config(config)
+        v1 = client.AppsV1Api()
+
+        i = v1.read_namespaced_deployment(DEPLOYMENT_NAME, NAMESPACE)
+        image_ver = i.spec.template.spec.containers[0].image.split(":")[1]
+        send_str = f"```version: {image_ver}```"
+
+        await message.channel.send(send_str)
 
     async def test(self, message):
         '''sends a test message'''
