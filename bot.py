@@ -8,14 +8,12 @@ from kubernetes import client, config
 # Discord auth token
 DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
 
-# operating namespace
 NAMESPACE = os.environ.get("NAMESPACE")
-
 ADMIN_FILE = "config/admins.txt"
-
 JOBS = {
     "restore-sql-backup": "./jobs/restore-sql-backup/job-restore-sql-backup.yaml",
 }
+IN_CLUSTER = True
 
 
 def load_admins():
@@ -25,6 +23,13 @@ def load_admins():
             admin = line.strip()
             admins.append(admin)
         return admins
+
+
+def load_kube_config(config):
+    if IN_CLUSTER:
+        config.load_incluster_config()
+    else:
+        config.load_kube_config()
 
 
 class Commands:
@@ -58,7 +63,7 @@ class Commands:
 
     async def jobs_status(self, message):
         '''shows status of all jobs in the namespace'''
-        config.load_kube_config()
+        load_kube_config(config)
         v1 = client.BatchV1Api()
 
         send_str = "```"
@@ -73,7 +78,7 @@ class Commands:
     
     async def create_job(self, message):
         '''creates a job. jobs must be packaged with the bot'''
-        config.load_kube_config()
+        load_kube_config(config)
 
         message_split = message.content.split(" ")
 
