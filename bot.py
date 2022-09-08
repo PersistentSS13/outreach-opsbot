@@ -39,7 +39,7 @@ class Commands:
     
     async def help(self, message):
         send_str = "```"
-        for command, command_func in self.commands:
+        for command, command_func in self.commands.items():
             send_str += f"{command} - {command_func.__doc__}\n"
         send_str += "```"
         await message.channel.send('Hello!')
@@ -51,7 +51,7 @@ class Commands:
     async def jobs(self, message):
         '''lists creatable jobs'''
         send_str = "```"
-        for job_name, job_path in JOBS:
+        for job_name, job_path in JOBS.items():
             send_str += f"{job_name} - {job_path}\n"
         send_str += "```"
         await message.channel.send(send_str)
