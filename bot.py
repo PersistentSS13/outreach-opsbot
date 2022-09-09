@@ -12,6 +12,7 @@ NAMESPACE = os.environ.get("NAMESPACE")
 ADMIN_FILE = "config/admins.txt"
 JOBS = {
     "restore-sql-backup": "./jobs/restore-sql-backup/job-restore-sql-backup.yaml",
+    "example-job": "./jobs/example-job/job-example-job.yaml"
 }
 IN_CLUSTER = True
 DEPLOYMENT_NAME = "discord_opsbot"
@@ -40,8 +41,8 @@ class Commands:
             "test": self.test,
             "version": self.version,
             "jobs": self.jobs,
-            "jobs_status": self.jobs_status,
-            "create_job": self.create_job,
+            "jobs-status": self.jobs_status,
+            "create-job": self.create_job,
         }
     
     async def help(self, message):
