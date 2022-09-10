@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   creationTimestamp: null
-  name: example-job
+  generateName: example-job-
   namespace: persistent-outreach
 spec:
   template:

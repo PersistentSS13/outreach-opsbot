@@ -20,6 +20,7 @@ NAMESPACE
 Required mounts:
 ```
 A k8s ServiceAccount
+/etc/gcp-sa/service-account.json
 ```
 
 Required k8s permissions:
