@@ -17,6 +17,7 @@ JOBS = {
 }
 IN_CLUSTER = True
 DEPLOYMENT_NAME = "discord_opsbot"
+GCP_CREDS_PATH = "/etc/gcp-sa/service-account.json"
 
 
 def load_admins():
@@ -128,7 +129,7 @@ class Commands:
         
     async def list_backups(self, message):
         """lists all the blobs in the backups bucket."""
-        storage_client = storage.Client()
+        storage_client = storage.Client.from_service_account_json(json_credentials_path=GCP_CREDS_PATH)
         blobs = storage_client.list_blobs(GCP_GS_BUCKET)
 
         send_str = "```"
