@@ -3,12 +3,13 @@ import os
 import yaml
 
 from kubernetes import client, config
+from google.cloud import storage
 
 
 # Discord auth token
 DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
-
 NAMESPACE = os.environ.get("NAMESPACE")
+GCP_GS_BUCKET = os.environ.get("GCP_GS_BUCKET")
 ADMIN_FILE = "config/admins.txt"
 JOBS = {
     "restore-sql-backup": "./jobs/restore-sql-backup/job-restore-sql-backup.yaml",
@@ -43,6 +44,7 @@ class Commands:
             "jobs": self.jobs,
             "jobs-status": self.jobs_status,
             "create-job": self.create_job,
+            "list-backups": self.list_backups,
         }
     
     async def help(self, message):
@@ -123,6 +125,17 @@ class Commands:
             
         await message.channel.send(f"Job doesn't appear to be implemented yet: `{job_name}`")
         return
+        
+    async def list_backups(self, message):
+        """lists all the blobs in the backups bucket."""
+        storage_client = storage.Client()
+        blobs = storage_client.list_blobs(GCP_GS_BUCKET)
+
+        send_str = "```"
+        for blob in blobs:
+            send_str += f"{blob.time_created} - {blob.name}\n"
+        send_str += "```"
+        await message.channel.send(send_str)
 
 
 def main():

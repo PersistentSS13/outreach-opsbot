@@ -1,2 +1,3 @@
 discord
 kubernetes
+google-cloud-storage>=1.17.0

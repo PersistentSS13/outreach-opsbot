@@ -15,6 +15,7 @@ Required ENV:
 ```
 DISCORD_TOKEN
 NAMESPACE
+GCP_GS_BUCKET
 ```
 
 Required mounts:
