@@ -159,7 +159,7 @@ def main():
             print("[-] User not admin, skipping...")
             return
 
-        print(f"[i] {message.channel} - {message_author_unique} - {message.content}")
+        print(f"[i] {message.channel} - {message.author.name} - {message.content}")
         message_split = message.content.split(" ")
         target_command = message_split[1]
         command_func = commands.commands.get(target_command)
