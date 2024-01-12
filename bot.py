@@ -130,7 +130,7 @@ class Commands:
     async def list_backups(self, message):
         """lists all the blobs in the backups bucket."""
         storage_client = storage.Client.from_service_account_json(json_credentials_path=GCP_CREDS_PATH)
-        blobs = storage_client.list_blobs(GCP_GS_BUCKET)
+        blobs = storage_client.list_blobs(GCP_GS_BUCKET, max_results=10)
 
         send_str = "```"
         for blob in blobs:
