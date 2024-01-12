@@ -154,17 +154,20 @@ def main():
         if message.author == discord_client.user:
             return
 
-        message_author_unique = f"{message.author.name}#{message.author.discriminator}"
-        if message_author_unique not in admins:
+        print(f"[+] Message from: {message.author.name}")
+        if message.author.name not in admins:
+            print("[-] User not admin, skipping...")
             return
 
-        print(f"{message.channel} - {message_author_unique} - {message.content}")
+        print(f"[i] {message.channel} - {message_author_unique} - {message.content}")
         message_split = message.content.split(" ")
         target_command = message_split[1]
         command_func = commands.commands.get(target_command)
 
-        if command_func is not None:        
+        if command_func is not None:
             await command_func(message)
+        else:
+            print(f"[-] No command found for {target_command}")
 
     discord_client.run(DISCORD_TOKEN)
 
